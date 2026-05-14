@@ -1,0 +1,24 @@
+name: Deploy AccessCompanion
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy to DigitalOcean
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          key: ${{ secrets.SSH_KEY }}
+          script: |
+            cd ~/access_companion
+            git pull origin main
+            docker stop access-assistant || true
+            docker rm access-assistant || true
+            docker system prune -f
+            docker build -t access-companion-app .
+            docker run -d -p 8501:8501 --env GOOGLE_API_KEY=${{ secrets.GOOGLE_API_KEY }} --name access-assistant access-companion-app
