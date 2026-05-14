@@ -106,7 +106,7 @@ with st.sidebar:
 alert_placeholder = st.empty()
 if st.session_state.last_alert:
     alert_placeholder.markdown(f'<div class="sr-only" aria-live="assertive">Alert: {st.session_state.last_alert}</div>', unsafe_allow_html=True)
-st.title("AccessCompanion for NVDA")
+st.title("AccessCompanion: The One-Stop Expert for Every NVDA Query")
 
 # --- DESCRIPTION BLOCK ---
 st.markdown("""
